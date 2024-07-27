@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+<ul>
+    {% for item in gallery %}
+    <li>
+        <p>{{ item.stylist }} </p>
+        <img src="{{ item.photo.url }}" alt="" width="300">
+        <p>{{ item.details }}</p>
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

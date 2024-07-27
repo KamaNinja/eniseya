@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+<u>
+    {% for employee in employees %}
+    <li>
+        {{ employee }}
+    </li>
+{% endfor %}
+</u>
+
+{% endblock %}

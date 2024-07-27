@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li><a href="{% url 'services' %}">Услуги</a></li>
+        <li><a href="{% url 'employees' %}">Мастера</a></li>
+        <li><a href="{% url 'gallery' %}">Галерея</a></li>
+        <li><a href="">Запись</a></li>
+        <li><a href="">Контакты</a></li>
+    </ul>
+</nav>
+
+{% block content %}
+{% endblock %}
+</body>
+</html>

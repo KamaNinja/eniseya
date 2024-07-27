@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+{% load main_tags %}
+
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+<style>
+  table {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+
+<table>
+  <thead>
+    <tr>
+      <th>Услуга</th>
+      <th>Продолжительность</th>
+      <th>Цена</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% regroup services by service_category as categories %}
+  {% for category in categories %}
+  <tr>
+      <th colspan="3">{{ category.grouper }}</th>
+  </tr>
+    {% for service in category.list %}
+        <tr>
+          <td>{{ service.title }}</td>
+          <td>{{ service.duration|format_time }}</td>
+          <td>{{ service.price|default:'-'}}</td>
+        </tr>
+    {% endfor %}
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

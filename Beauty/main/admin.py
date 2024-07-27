@@ -6,17 +6,19 @@ from .utils import ShortDetailsAdminMixin
 
 @admin.register(ServiceCategory)
 class ServiceCategoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
+    list_display = ('title', 'slug')
+    exclude = ('slug',)
 
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ('title',)
 
 
 @admin.register(Employee)
 class EmployeeAdmin(ShortDetailsAdminMixin):
-    pass
+    list_display = ('name', 'slug')
+    exclude = ('slug',)
 
 
 @admin.register(Gallery)

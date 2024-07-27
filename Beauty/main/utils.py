@@ -1,17 +1,26 @@
 from django.db import models
 from django.contrib import admin
+from django.utils.text import slugify
 
 import datetime
 from pathlib import Path
 
+from unidecode import unidecode
+
+
+def get_unique_slug(model, field):
+    slug = slugify(unidecode(field))
+    unique_slug = slug
+    count = 1
+
+    while model.objects.filter(slug=unique_slug).exists():
+        unique_slug = f"{slug}-{count}"
+        count += 1
+
+    return unique_slug
+
 
 class UniqueNameImageModelMixin(models.Model):
-    """
-    Этот миксин предназначен для использования в качестве базового класса для моделей,
-    которые хранят изображения или другие файлы. Он обеспечивает генерацию уникального
-    имени файла и определение пути для загрузки файла, что помогает избежать конфликтов
-    имен и организовать файлы в соответствии с именем класса.
-    """
     def generate_unique_name(self):
         now = datetime.datetime.now()
         class_name = self.__class__.__name__.lower()
@@ -23,15 +32,13 @@ class UniqueNameImageModelMixin(models.Model):
         filename = f"{self.generate_unique_name()}{ext}"
         return f"{self.__class__.__name__}/{filename}"
 
+    photo = models.ImageField(upload_to=get_upload_path)
+
     class Meta:
         abstract = True
 
 
 class ShortDetailsAdminMixin(admin.ModelAdmin):
-    """
-    Миксин для Django Admin, который добавляет новое поле "Детали" в список элементов.
-    Это поле будет содержать краткую версию поля `details` объекта, обрезая его до 25 символов.
-    """
     def short_details(self, obj):
         details = obj.details or '-'
         return details[:25] + '...' if len(details) > 25 else details

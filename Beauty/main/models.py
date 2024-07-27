@@ -11,14 +11,14 @@ class ActiveManager(models.Manager):
 
 class ServiceCategory(models.Model):
     title = models.CharField(max_length=50)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
         return self.title
 
 
 class Service(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=6,
                                 decimal_places=2,
                                 blank=True,
@@ -27,14 +27,22 @@ class Service(models.Model):
     duration = models.PositiveSmallIntegerField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     service_category = models.ForeignKey('ServiceCategory', on_delete=models.PROTECT)
+    objects = models.Manager()
+    active_objects = ActiveManager()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['service_category', 'title']
 
 
 class Employee(UniqueNameImageModelMixin, models.Model):
     name = models.CharField(max_length=30)
     details = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     is_active = models.BooleanField(default=True)
-    object = models.Manager()
+    objects = models.Manager()
     active_objects = ActiveManager()
 
     def __str__(self):
@@ -43,11 +51,11 @@ class Employee(UniqueNameImageModelMixin, models.Model):
 
 class Gallery(UniqueNameImageModelMixin, models.Model):
     details = models.CharField(max_length=255)
-    stylist = models.ForeignKey('Employee', on_delete=models.PROTECT)
+    stylist = models.ForeignKey('Employee', on_delete=models.PROTECT, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     service_category = models.ForeignKey('ServiceCategory', on_delete=models.PROTECT)
     objects = models.Manager()
     active_objects = ActiveManager()
 
     def __str__(self):
-        pass
+        return f"{self.pk} {self.details}"
