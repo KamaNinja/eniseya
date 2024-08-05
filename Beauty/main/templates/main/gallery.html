@@ -1,18 +1,15 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-<h1>{{ title }}</h1>
+<form action="">
+    {{ form.as_p }}
+    <button type="submit">ok</button>
+</form>
 
-<ul>
-    {% for item in gallery %}
-    <li>
-        <p>{{ item.stylist }} </p>
-        <img src="{{ item.photo.url }}" alt="" width="300">
-        <p>{{ item.details }}</p>
-    </li>
-    <br>
-    {% endfor %}
-</ul>
-
+{% for item in gallery %}
+    <h3>{{ item.details }}</h3>
+    <p>{{ item.stylist }}</p>
+    <img src="{{ item.photo.url }}" alt="" width="300">
+{% endfor %}
 
 {% endblock %}

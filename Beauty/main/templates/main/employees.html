@@ -1,14 +1,17 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-<h1>{{ title }}</h1>
-
-<u>
+<ul>
     {% for employee in employees %}
     <li>
-        {{ employee }}
+        {% if employee.gallery_set.exists %}
+            <a href="{% url 'gallery' %}?employee={{ employee.slug }}">{{ employee.name }}</a>
+        {% else %}
+            <p>{{ employee.name }}</p>
+        {% endif %}
+        <img src="{{ employee.photo.url }}" alt="" width="300">
     </li>
 {% endfor %}
-</u>
+</ul>
 
 {% endblock %}

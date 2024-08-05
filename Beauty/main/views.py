@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from .models import Service, Employee, Gallery
+from .forms import FilterGalleryForm
 
 
 def index(request):
@@ -10,7 +11,7 @@ def index(request):
 
 def get_employees(request):
     employees = Employee.active_objects.all()
-    context = {'title': 'Мастера', 'employeess': employees}
+    context = {'title': 'Мастера', 'employees': employees}
     return render(request, 'main/employees.html', context)
 
 
@@ -21,6 +22,17 @@ def get_services(request):
 
 
 def get_gallery(request):
-    gallery = Gallery.active_objects.all()
-    context = {'title': 'Галерея', 'gallery': gallery}
+    filter_form = FilterGalleryForm(request.GET)
+
+    selected_categories = request.GET.getlist('service_category')
+    selected_employees = request.GET.getlist('employee')
+
+    gallery = filter_form.filter_gallery(Gallery, selected_categories, selected_employees)
+
+    context = {
+        'title': 'Галерея',
+        'gallery': gallery,
+        'form': filter_form,
+    }
+
     return render(request, 'main/gallery.html', context)

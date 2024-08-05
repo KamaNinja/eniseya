@@ -58,4 +58,4 @@ class Gallery(UniqueNameImageModelMixin, models.Model):
     active_objects = ActiveManager()
 
     def __str__(self):
-        return f"{self.pk} {self.details}"
+        return f"{self.pk}-{self.details}"

@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib import admin
 from django.utils.text import slugify
 
 import datetime
@@ -36,12 +35,3 @@ class UniqueNameImageModelMixin(models.Model):
 
     class Meta:
         abstract = True
-
-
-class ShortDetailsAdminMixin(admin.ModelAdmin):
-    def short_details(self, obj):
-        details = obj.details or '-'
-        return details[:25] + '...' if len(details) > 25 else details
-
-    short_details.short_description = 'Детали'
-    short_details.admin_order_field = 'details'
