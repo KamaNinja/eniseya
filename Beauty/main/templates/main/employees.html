@@ -9,7 +9,9 @@
         {% else %}
             <p>{{ employee.name }}</p>
         {% endif %}
-        <img src="{{ employee.photo.url }}" alt="" width="300">
+        {% if employee.photo %}
+            <p><img src="{{ employee.photo.url }}" alt="" width="300"></p>
+        {% endif %}
     </li>
 {% endfor %}
 </ul>

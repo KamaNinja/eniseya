@@ -22,7 +22,7 @@ class FilterGalleryForm(forms.Form):
 
     @staticmethod
     def filter_gallery(gallery, service_categories=None, employees=None):
-        gallery = gallery.active_objects.all()
+        gallery = gallery.active_objects.all().select_related('stylist', 'service_category')
         if employees:
             gallery = gallery.filter(stylist__slug__in=employees)
         if service_categories:
